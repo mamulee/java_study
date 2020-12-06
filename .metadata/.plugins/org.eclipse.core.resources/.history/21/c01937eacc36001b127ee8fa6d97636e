@@ -1,0 +1,13 @@
+
+public class Dessert {
+	String type; // 디저트 종류
+	String flavour; // 맛
+	int price; // 가격
+	int stock; // 수량
+	int sales; // 판매량
+	int revenue; // 수입
+	
+	public Dessert(String type) {
+		this.type = type;
+	}
+}

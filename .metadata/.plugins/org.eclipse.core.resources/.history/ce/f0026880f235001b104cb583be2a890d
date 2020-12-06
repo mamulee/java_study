@@ -1,0 +1,26 @@
+package p11;
+
+public class InterruptEx {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+class PrintThread2 extends Thread{
+	@Override
+	public void run() {
+		try {
+			while(true) {
+				System.out.println("실행 중");
+				Thread.sleep(1);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("자원정리");
+		System.out.println("실행종료");
+	}
+}

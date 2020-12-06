@@ -1,0 +1,27 @@
+package p06;
+
+import java.util.Calendar;
+
+public class CalendarEx {
+
+	public static void main(String[] args) {
+
+		Calendar now = Calendar.getInstance();
+		System.out.println(now);
+		int year = now.get(Calendar.YEAR);
+		System.out.println(year);
+		year = now.get(5);
+		System.out.println(year);
+		
+		int month = now.get(2);
+		System.out.println(month+1);
+		
+		int week = now.get(Calendar.DAY_OF_WEEK);
+		System.out.println(week);
+		if(week == Calendar.MONDAY) {
+			System.out.println("월");
+		}
+		
+	}
+
+}

@@ -1,0 +1,11 @@
+package p02;
+
+public class DatePrintEx {
+
+	public static void main(String[] args) {
+
+		Date now = new Date();
+
+	}
+
+}

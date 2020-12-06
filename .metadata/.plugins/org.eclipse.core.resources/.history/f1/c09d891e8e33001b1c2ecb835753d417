@@ -1,0 +1,16 @@
+package p05;
+
+import java.util.Arrays;
+
+public class ArrayEx02 {
+
+	public static void main(String[] args) {
+		// 2차원 배열
+		int[][] original = { {1,2}, {3,4}};
+		System.out.println("얕은 복제");
+		int[][] cloned1 = Arrays.copyOf(original, original.length);
+		System.out.println("배열 번지 비교: "+original.equals(cloned1));// false, 오브젝트 클래스의 equals
+
+	}
+
+}

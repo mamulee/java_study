@@ -1,0 +1,15 @@
+package p03;
+
+public class Calculator {
+	private int memory;
+	
+	public int getMemory() {
+		return memory;
+	}
+	
+	public void setMemory(int memory) {
+		this.memory = memory;
+		Thread.sleep(2000); // 2초 동안 일시정지
+	}
+	
+}

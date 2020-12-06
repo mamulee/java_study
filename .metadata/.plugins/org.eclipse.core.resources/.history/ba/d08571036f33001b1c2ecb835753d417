@@ -1,0 +1,19 @@
+package p02;
+
+public class ClassEx {
+
+	public static void main(String[] args) {
+		Car car = new Car();
+		
+		// Class c = new Class(); => 에러
+		Class clazz1 = car.getClass(); // 생성자가 없는 경우의 클래스 API 사용 예시 
+		String name = clazz1.getName();
+		String sname = clazz1.getSimpleName();
+		clazz1.getPackage();
+	}
+
+}
+
+class Car {
+	
+}

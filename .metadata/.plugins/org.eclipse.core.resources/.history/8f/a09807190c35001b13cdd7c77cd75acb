@@ -1,0 +1,23 @@
+package p02;
+
+public class StudentEx {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+class Student {
+	private String studentNum;
+	
+
+	Student() {
+		
+	}
+	Student(String studentNum) {
+		this.studentNum = studentNum;
+	}
+	
+}

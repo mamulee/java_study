@@ -1,0 +1,27 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public class DateTimeCreateEx {
+
+	public static void main(String[] args) {
+		
+		
+		LocalDate currDate = LocalDate.now();
+		LocalDate targetDate = LocalDate.of(2020, 12, 25);
+		System.out.println("현재 날짜: "+currDate);
+		System.out.println("지정 날짜: "+ targetDate);
+		
+		LocalTime currTime = LocalTime.now();
+		LocalTime targetTime = LocalTime.of(15, 25, 30);
+		System.out.println("현재 시간: "+currTime);
+		System.out.println("지정 시간: "+ targetTime);
+		
+		LocalDateTime currDateTime = LocalDateTime.now();
+		LocalDateTime targetDateTime = LocalDateTime.of(2020, 12, 25, 15, 25, 30);
+		System.out.println("현재 날짜 시간: "+currDate);
+		System.out.println("지정 날짜 시간: "+ targetDate);
+		
+	}
+
+}

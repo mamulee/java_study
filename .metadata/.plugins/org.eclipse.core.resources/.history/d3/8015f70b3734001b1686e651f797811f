@@ -1,0 +1,16 @@
+package p01;
+
+import java.util.Arrays;
+
+public class BinarySearchEx {
+
+	public static void main(String[] args) {
+
+		int[] scores = {99, 97, 98};
+		Arrays.sort(scores);
+		int index = Arrays.binarySearch(scores,100);
+		System.out.println("찾는 자료의 인덱스는 "+ index);
+		System.out.println(scores[index]);
+	}
+
+}

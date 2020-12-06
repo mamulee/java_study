@@ -1,0 +1,32 @@
+package p01;
+
+public class ComparableEx {
+
+	public static void main(String[] args) {
+
+		Member m1 = new Member(1, "홍길동", "123");
+		Member m2 = new Member(2, "박길동", "123");
+		
+	}
+
+}
+
+// 사용자(프로그래머)가 정렬할 기준을 정해 주는 프로그램 작성
+class Member implements Comparable<Member> {
+	int sno;
+	String sname;
+	String stel
+	public Member() {
+		
+	}
+	public Member(int sno, String sname, String stel) {
+		this.sno = sno;
+		this.sname = sname;
+		this.stel = stel;
+	}
+	
+	@Override
+	public int compareTo(Member o) {
+		return 0;
+	}
+}

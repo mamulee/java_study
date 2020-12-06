@@ -1,0 +1,13 @@
+package p01;
+
+public class SystemEx {
+
+	public static void main(String[] args) {
+		// 필드
+		InputStream is = System.in;
+		PrintStream ps = System.err;
+		PrintStream os = System.out;
+
+	}
+
+}

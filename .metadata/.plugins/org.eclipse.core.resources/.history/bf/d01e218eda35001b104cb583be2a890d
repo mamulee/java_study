@@ -1,0 +1,12 @@
+package p06;
+
+public class YieldEx {
+
+	public static void main(String[] args) {
+		ThreadA threadA = new ThreadA();
+		ThreadA threadA = new ThreadA();
+		threadA.start();
+		ThreadB.start();
+	}
+
+}

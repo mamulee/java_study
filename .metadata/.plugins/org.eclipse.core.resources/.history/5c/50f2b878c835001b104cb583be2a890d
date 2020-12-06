@@ -1,0 +1,14 @@
+package p02;
+
+public class ThreadNameEx {
+
+	public static void main(String[] args) {
+
+		ThreadA threadA = new ThreadA();
+		ThreadB threadB = new ThreadB();
+		
+		
+		
+	}
+
+}

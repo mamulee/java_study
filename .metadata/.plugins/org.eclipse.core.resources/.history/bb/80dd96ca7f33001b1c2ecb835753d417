@@ -1,0 +1,24 @@
+package p05;
+
+public class ArrayEx {
+
+	public static void main(String[] args) {
+
+		char[] charArr1 = {'J', 'A', 'V', 'A'};
+		byte[] byteArr1 = {1, 0, 1}	;
+		double[] doubleArr1 = {1.1, 2.2, 3.3};
+		Car[] carArr1 = {new Car(), new Car()};
+		
+		int[] intArr1 = new int[3];
+		intArr1[0] = 1;
+		intArr1[1] = 2;
+		intArr1[2] = 3;
+		// int[] intArr1 = {1, 2, 3};		
+		
+	}
+
+}
+
+class Car {
+	
+}

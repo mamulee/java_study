@@ -1,0 +1,9 @@
+package p08;
+
+public class WorkObject {
+	
+	public synchronized void methodA() {
+		
+	}
+	
+}
