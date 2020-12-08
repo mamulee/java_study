@@ -62,7 +62,7 @@ public class Business {
 
 	void input() {
 		String[] menu = {"컵케익", "쿠키", "타르트", "마카롱"};
-		String flavour;
+		String flavour, p, s;
 		int price, stock;
 
 		String input = (String) JOptionPane.showInputDialog(
@@ -74,6 +74,7 @@ public class Business {
 				menu,
 				menu[0]
 				);
+		if (input == null) return;
 
 		flavour = JOptionPane.showInputDialog(
 				null,
@@ -81,18 +82,51 @@ public class Business {
 				title,
 				JOptionPane.PLAIN_MESSAGE
 				);
-		price = Integer.parseInt(JOptionPane.showInputDialog(
-				null,
-				"가격: ",
-				title,
-				JOptionPane.PLAIN_MESSAGE
-				));
-		stock = Integer.parseInt(JOptionPane.showInputDialog(
-				null,
-				"수량: ",
-				title,
-				JOptionPane.PLAIN_MESSAGE
-				));
+		if (flavour == null) return;
+		
+		try {
+			p = JOptionPane.showInputDialog(
+					null,
+					"가격: ",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			if (p == null) return;
+			else {
+				price = Integer.parseInt(p);
+			}
+
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(
+					null, 
+					"숫자만 입력할 수 있습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			return;
+		}
+
+		try {
+			s = JOptionPane.showInputDialog(
+					null,
+					"수량: ",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			if (s == null) return;
+			else {
+				stock = Integer.parseInt(s);
+			}
+			
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(
+					null, 
+					"숫자만 입력할 수 있습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			return;
+		}
 
 		if (input.equals("컵케익")) {
 			cupcake.add(new Dessert("컵케익", flavour, price, stock));
@@ -125,6 +159,8 @@ public class Business {
 				menu[0]
 
 				);
+		if (input == null) return;
+		
 		if(input.equals("컵케익")) {
 			String msg = "====컵케익====\n"
 					+ "맛\t가격\t개수\n";
@@ -215,51 +251,61 @@ public class Business {
 		case 0:
 			return;
 		}
-		
-		String[] flavour = new String[dessert.get(choice).size()];
-		int cnt = 0;
-		Iterator<Dessert> itr = dessert.get(choice).iterator();
-		while(itr.hasNext()) {
-			Dessert d = itr.next();
-			flavour[cnt++] = d.flavour;
+
+		try {
+			String[] flavour = new String[dessert.get(choice).size()];
+			int cnt = 0;
+			Iterator<Dessert> itr = dessert.get(choice).iterator();
+			while(itr.hasNext()) {
+				Dessert d = itr.next();
+				flavour[cnt++] = d.flavour;
+			}
+
+			int c = JOptionPane.showOptionDialog(
+					null, 
+					"판매한 맛을 선택하세요: ", 
+					title, 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.PLAIN_MESSAGE, 
+					null,
+					flavour,
+					flavour[0]
+					);
+			int num = Integer.parseInt(JOptionPane.showInputDialog(
+					null,
+					"판매한 수량: ",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					));
+			if(num > dessert.get(choice).get(c).stock) {
+				JOptionPane.showMessageDialog(
+						null, 
+						"수량이 부족합니다!",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+			}
+			else {
+				dessert.get(choice).get(c).sales = num;
+				dessert.get(choice).get(c).stock -= num;
+				String msg = "남은 "+dessert.get(choice).get(c).flavour+" 수량: "+dessert.get(choice).get(c).stock+"개";
+				JOptionPane.showMessageDialog(
+						null, 
+						msg,
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			JOptionPane.showMessageDialog(
+					null, 
+					"판매할 디저트가 없습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			return;
 		}
 
-		int c = JOptionPane.showOptionDialog(
-				null, 
-				"판매한 맛을 선택하세요: ", 
-				title, 
-				JOptionPane.DEFAULT_OPTION, 
-				JOptionPane.PLAIN_MESSAGE, 
-				null,
-				flavour,
-				flavour[0]
-				);
-		int num = Integer.parseInt(JOptionPane.showInputDialog(
-				null,
-				"판매한 수량: ",
-				title,
-				JOptionPane.PLAIN_MESSAGE
-				));
-		if(num > dessert.get(choice).get(c).stock) {
-			JOptionPane.showMessageDialog(
-					null, 
-					"수량이 부족합니다!",
-					title,
-					JOptionPane.PLAIN_MESSAGE
-					);
-		}
-		else {
-			dessert.get(choice).get(c).sales = num;
-			dessert.get(choice).get(c).stock -= num;
-			String msg = "남은 "+dessert.get(choice).get(c).flavour+" 수량: "+dessert.get(choice).get(c).stock+"개";
-			JOptionPane.showMessageDialog(
-					null, 
-					msg,
-					title,
-					JOptionPane.PLAIN_MESSAGE
-					);
-		}
-		
 	} // end sell()
 	
 	void invoice() {

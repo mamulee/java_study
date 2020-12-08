@@ -37,6 +37,8 @@ public class LinkedListEx02 {
 		el = linkedList.pop();
 		System.out.println(el+" POP!"); // 첫번째 요소 꺼낸 후 삭제
 		
+		
+		
 		// 전체 출력
 		Iterator<String> itr = linkedList.iterator();
 		while(itr.hasNext()) {
