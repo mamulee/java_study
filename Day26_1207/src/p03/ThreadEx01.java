@@ -21,7 +21,7 @@ public class ThreadEx01 {
 		ThreadGroup movieGrp= new ThreadGroup("Movie");
 
         Thread m1 = new Thread(movieGrp, m);
-        Thread v2 = new Thread(movieGrp, v);
+        Thread v1 = new Thread(movieGrp, v);
         
         m1.start();
 		

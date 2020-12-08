@@ -33,10 +33,19 @@ public class ArrayListEx03 {
 		list2.get(2).setNo("2017");
 		System.out.println(list2.get(2).getNo());
 		
-		int index = list2.indexOf("최무선");
-		System.out.println(index);
-		int i = list2.indexOf("2017");
-		System.out.println(i);
+		// 안 나옴 
+//		int index = list2.indexOf("최무선");
+//		System.out.println(index);
+//		int i = list2.indexOf("2017");
+//		System.out.println(i);
+		// 다른 방법
+		int i;
+		for (i=0; i<list2.size(); i++) {
+			if(list2.get(i).name.equals("최무선")) {
+				break;
+			}
+		}
+		System.out.println("찾은 인덱스: "+i);
 		
 	}
 
