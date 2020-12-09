@@ -224,6 +224,8 @@ public class Business {
 	} // end check()
 
 	void sell() {
+		String n;
+		int num = 0;
 		String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
 		int choice = JOptionPane.showOptionDialog(
 				null, 
@@ -271,12 +273,30 @@ public class Business {
 					flavour,
 					flavour[0]
 					);
-			int num = Integer.parseInt(JOptionPane.showInputDialog(
-					null,
-					"판매한 수량: ",
-					title,
-					JOptionPane.PLAIN_MESSAGE
-					));
+			
+			try {
+				n = JOptionPane.showInputDialog(
+						null,
+						"판매한 수량: ",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				if (n == null) return;
+				else {
+					num = Integer.parseInt(n);
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(
+						null, 
+						"숫자만 입력할 수 있습니다.",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				return;
+			}
+			
+			
+			
 			if(num > dessert.get(choice).get(c).stock) {
 				JOptionPane.showMessageDialog(
 						null, 
