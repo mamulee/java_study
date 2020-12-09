@@ -146,6 +146,122 @@ public class Business {
 		}
 	}
 
+	void modify() {
+		
+		String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
+		int choice = JOptionPane.showOptionDialog(
+				null, 
+				"수정할 디저트 종류를 선택하세요: ", 
+				title, 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.PLAIN_MESSAGE, 
+				null, 
+				menu,
+				menu[0]
+				);
+		switch(choice) {
+		case 4:
+			choice = 0;
+			break;
+		case 3:
+			choice = 1;
+			break;
+		case 2:
+			choice = 2;
+			break;
+		case 1:
+			choice = 3;
+			break;
+		case 0:
+			return;
+		}
+		
+		int no=1, num2;
+		String num1;
+		String msg = "========"+dessert.get(choice).get(0).type+"========\n"
+				+ "번호\t\t맛\t\t가격\t\t개수\n";
+		Iterator<Dessert> itr = dessert.get(choice).iterator();
+		while(itr.hasNext()) {
+			Dessert d = itr.next();
+			msg += no +"\t"+ d.toString()+"\n";
+			no++;
+		}
+		
+		try {
+			num1 = JOptionPane.showInputDialog(
+					null,
+					"수정할 항목의 번호를 입력하세요: ",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			if (num1 == null) return;
+			else {
+				num2 = Integer.parseInt(num1);
+			}
+
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(
+					null, 
+					"숫자만 입력할 수 있습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			return;
+		}
+		
+		
+		String[] option = {"돌아가기", "개수", "가격", "맛"};
+		int c = JOptionPane.showOptionDialog(
+				null, 
+				msg + "수정할 항목을 선택하세요: ", 
+				title, 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.PLAIN_MESSAGE, 
+				null, 
+				option,
+				option[0]
+				);
+		
+		switch(c) {
+		case 3:
+			String f = JOptionPane.showInputDialog(
+					null, 
+					msg + "수정할 맛을 입력하세요: ",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
+			for (int i=0; i<dessert.get(choice).size(); i++) {
+				if(f.equals(dessert.get(choice).get(i).flavour)) {
+					String newf = JOptionPane.showInputDialog(
+							null, 
+							"맛을 새로 입력하세요: ",
+							title,
+							JOptionPane.PLAIN_MESSAGE
+							);
+					
+					dessert.get(choice).get(i).flavour = newf;
+				}
+				else {
+					JOptionPane.showMessageDialog(
+							null, 
+							"잘못 입력하셨습니다.",
+							title,
+							JOptionPane.PLAIN_MESSAGE
+							);
+				}
+			}
+			break;
+		case 2:
+			break;
+		case 1:
+			break;
+		case 0:
+			return;
+		}
+		
+		
+	} //end modify
+	
 	void check() {
 		String[] menu = {"컵케익", "쿠키", "타르트", "마카롱"};
 		String input = (String) JOptionPane.showInputDialog(
