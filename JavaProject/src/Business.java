@@ -1,23 +1,33 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class Business {
-	String title = "세상에서 제일 맛있는 디저트 카페";
+	
+	String title = "세상에서 제일 맛있는 디저트 가게";
 	ArrayList<Dessert> cupcake = new ArrayList<Dessert>();
 	ArrayList<Dessert> cookie = new ArrayList<Dessert>();
 	ArrayList<Dessert> tart = new ArrayList<Dessert>();
 	ArrayList<Dessert> macaron = new ArrayList<Dessert>();
 	List<ArrayList<Dessert>> dessert = (Arrays.asList(cupcake, cookie, tart, macaron));
-
-	//		public void test() {
-	//			System.out.println(dessert.get(0).get(0).type);
-	//		}
+	
 
 	void start() {
+		ImageIcon main = new ImageIcon("exit.png");
+		JLabel icon = new JLabel(main);
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(icon, BorderLayout.CENTER);
+		
 		boolean flag = true;
 		while(flag) {
 			switch(display()) {
@@ -40,23 +50,24 @@ public class Business {
 				flag = false;
 				JOptionPane.showMessageDialog(
 						null,
-						"프로그램을 종료합니다.",
+						panel,
 						title,
-						JOptionPane.INFORMATION_MESSAGE
+						JOptionPane.PLAIN_MESSAGE
 						);
 			}
 		}
 	}
 
-	int display() {
+	int display() {		
+		ImageIcon icon = new ImageIcon("Choose.png");
 		String[] menu = {"종료", "정산", "판매", "조회", "수정", "입력"};
 		int choice = JOptionPane.showOptionDialog(
 				null, 
-				"메뉴를 선택하세요: ", 
+				null, 
 				title, 
 				JOptionPane.DEFAULT_OPTION, 
 				JOptionPane.PLAIN_MESSAGE, 
-				null, 
+				icon, 
 				menu, 
 				menu[0]
 				);
@@ -64,13 +75,20 @@ public class Business {
 	}
 
 	void input() {
+		MyLabel label1 = new MyLabel("디저트 종류를 선택하세요:");
+		MyLabel label2 = new MyLabel("추가할 맛:");
+		MyLabel label3 = new MyLabel("이미 존재하는 맛입니다.");
+		MyLabel label4 = new MyLabel("가격:");
+		MyLabel label5 = new MyLabel("개수:");
+		MyLabel label6 = new MyLabel("숫자만 입력할 수 있습니다.");
+		
 		String[] menu = {"컵케익", "쿠키", "타르트", "마카롱"};
 		String flavour, p, s;
 		int price, stock;
 
 		String input = (String) JOptionPane.showInputDialog(
 				null,
-				"디저트 종류를 선택하세요: ",
+				label1,
 				title,
 				JOptionPane.PLAIN_MESSAGE,
 				null,
@@ -81,7 +99,7 @@ public class Business {
 
 		flavour = JOptionPane.showInputDialog(
 				null,
-				"추가할 맛: ",
+				label2,
 				title,
 				JOptionPane.PLAIN_MESSAGE
 				);
@@ -96,7 +114,7 @@ public class Business {
 					if (flavour.equals(dessert.get(i).get(j).flavour)) {
 						JOptionPane.showMessageDialog(
 								null, 
-								"이미 존재하는 맛입니다.",
+								label3,
 								title,
 								JOptionPane.PLAIN_MESSAGE
 								);
@@ -110,7 +128,7 @@ public class Business {
 		try {
 			p = JOptionPane.showInputDialog(
 					null,
-					"가격: ",
+					label4,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -122,7 +140,7 @@ public class Business {
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(
 					null, 
-					"숫자만 입력할 수 있습니다.",
+					label6,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -132,7 +150,7 @@ public class Business {
 		try {
 			s = JOptionPane.showInputDialog(
 					null,
-					"수량: ",
+					label5,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -144,18 +162,20 @@ public class Business {
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(
 					null, 
-					"숫자만 입력할 수 있습니다.",
+					label6,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
 			return;
 		}
 
+		
+		MyLabel label7 = new MyLabel(flavour+"맛이 "+stock+"개 추가되었습니다.");
 		if (input.equals("컵케익")) {
 			cupcake.add(new Dessert("컵케익", flavour, price, stock));
 			JOptionPane.showMessageDialog(
 					null, 
-					"컵케익에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					label7,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -164,7 +184,7 @@ public class Business {
 			cookie.add(new Dessert("쿠키", flavour, price, stock));
 			JOptionPane.showMessageDialog(
 					null, 
-					"쿠키에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					label7,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -173,7 +193,7 @@ public class Business {
 			tart.add(new Dessert("타르트", flavour, price, stock));
 			JOptionPane.showMessageDialog(
 					null, 
-					"타르트에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					label7,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -182,7 +202,7 @@ public class Business {
 			macaron.add(new Dessert("마카롱", flavour, price, stock));
 			JOptionPane.showMessageDialog(
 					null, 
-					"마카롱에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					label7,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -190,11 +210,15 @@ public class Business {
 	}
 
 	void modify() {
+		
+		MyLabel label1 = new MyLabel("수정할 디저트 종류를 선택하세요:");
+		MyLabel label2 = new MyLabel("숫자만 입력할 수 있습니다.");
+		
 		try {
 			String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
 			int choice = JOptionPane.showOptionDialog(
 					null, 
-					"수정할 디저트 종류를 선택하세요: ", 
+					label1, 
 					title, 
 					JOptionPane.DEFAULT_OPTION, 
 					JOptionPane.PLAIN_MESSAGE, 
@@ -229,7 +253,7 @@ public class Business {
 				msg += no +"\t"+ d.toString()+"\n";
 				no++;
 			}
-
+			
 			try {
 				num1 = JOptionPane.showInputDialog(
 						null,
@@ -245,7 +269,7 @@ public class Business {
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(
 						null, 
-						"숫자만 입력할 수 있습니다.",
+						label2,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -280,9 +304,10 @@ public class Business {
 						);
 				if (f == null) return;
 				dessert.get(choice).get(num2-1).flavour = f;
+				MyLabel label3 = new MyLabel("맛이 "+f+"(으)로 수정되었습니다.");
 				JOptionPane.showMessageDialog(
 						null, 
-						"맛이 "+f+"(으)로 수정되었습니다.",
+						label3,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -300,9 +325,10 @@ public class Business {
 					price = Integer.parseInt(p);
 				}
 				dessert.get(choice).get(num2-1).price = price;
+				MyLabel label4 = new MyLabel("가격이 "+price+"(으)로 수정되었습니다.");
 				JOptionPane.showMessageDialog(
 						null, 
-						"가격이 "+price+"(으)로 수정되었습니다.",
+						label4,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -320,9 +346,10 @@ public class Business {
 					stock = Integer.parseInt(s);
 				}
 				dessert.get(choice).get(num2-1).price = stock;
+				MyLabel label5 = new MyLabel("개수가 "+stock+"(으)로 수정되었습니다.");
 				JOptionPane.showMessageDialog(
 						null, 
-						"개수가 "+stock+"(으)로 수정되었습니다.",
+						label5,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -331,9 +358,10 @@ public class Business {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
+			MyLabel label6 = new MyLabel("수정할 항목이 없습니다.");
 			JOptionPane.showMessageDialog(
 					null, 
-					"수정할 항목이 없습니다.",
+					label6,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
@@ -343,11 +371,12 @@ public class Business {
 	} //end modify
 
 	void check() {
+		MyLabel label1 = new MyLabel("디저트 종류를 선택하세요: ");
+		
 		String[] menu = {"컵케익", "쿠키", "타르트", "마카롱"};
 		String input = (String) JOptionPane.showInputDialog(
-
 				null,
-				"디저트 종류를 선택하세요: ",
+				label1,
 				title,
 				JOptionPane.PLAIN_MESSAGE,
 				null,
@@ -422,10 +451,12 @@ public class Business {
 	void sell() {
 		String n;
 		int num = 0;
+		MyLabel label1 = new MyLabel("판매한 디저트 종류를 선택하세요: ");
+		
 		String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
 		int choice = JOptionPane.showOptionDialog(
 				null, 
-				"판매한 디저트 종류를 선택하세요: ", 
+				label1, 
 				title, 
 				JOptionPane.DEFAULT_OPTION, 
 				JOptionPane.PLAIN_MESSAGE, 
@@ -459,9 +490,10 @@ public class Business {
 				flavour[cnt++] = d.flavour;
 			}
 
+			MyLabel label2 = new MyLabel("판매한 맛을 선택하세요: ");
 			int c = JOptionPane.showOptionDialog(
 					null, 
-					"판매한 맛을 선택하세요: ", 
+					label2, 
 					title, 
 					JOptionPane.DEFAULT_OPTION, 
 					JOptionPane.PLAIN_MESSAGE, 
@@ -471,9 +503,10 @@ public class Business {
 					);
 
 			try {
+				MyLabel label3 = new MyLabel("판매한 수량: ");
 				n = JOptionPane.showInputDialog(
 						null,
-						"판매한 수량: ",
+						label3,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -482,9 +515,10 @@ public class Business {
 					num = Integer.parseInt(n);
 				}
 			} catch (NumberFormatException e) {
+				MyLabel label4 = new MyLabel("숫자만 입력할 수 있습니다.");
 				JOptionPane.showMessageDialog(
 						null, 
-						"숫자만 입력할 수 있습니다.",
+						label4,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -494,9 +528,10 @@ public class Business {
 
 
 			if(num > dessert.get(choice).get(c).stock) {
+				MyLabel label5 = new MyLabel("수량이 부족합니다!");
 				JOptionPane.showMessageDialog(
 						null, 
-						"수량이 부족합니다!",
+						label5,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
@@ -505,17 +540,19 @@ public class Business {
 				dessert.get(choice).get(c).sales = num;
 				dessert.get(choice).get(c).stock -= num;
 				String msg = "남은 "+dessert.get(choice).get(c).flavour+" 수량: "+dessert.get(choice).get(c).stock+"개";
+				MyLabel label6 = new MyLabel(msg);
 				JOptionPane.showMessageDialog(
 						null, 
-						msg,
+						label6,
 						title,
 						JOptionPane.PLAIN_MESSAGE
 						);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
+			MyLabel label7 = new MyLabel("판매할 디저트가 없습니다.");
 			JOptionPane.showMessageDialog(
 					null, 
-					"판매할 디저트가 없습니다.",
+					label7,
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
