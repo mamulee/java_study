@@ -86,6 +86,26 @@ public class Business {
 				JOptionPane.PLAIN_MESSAGE
 				);
 		if (flavour == null) return;
+		
+		for (int i=0; i<dessert.size(); i++) {
+			
+			if (dessert.get(i).size() != 0 && input.equals(dessert.get(i).get(0).type)) {
+				
+				for (int j=0; j<dessert.get(i).size(); j++) {
+					
+					if (flavour.equals(dessert.get(i).get(j).flavour)) {
+						JOptionPane.showMessageDialog(
+								null, 
+								"이미 존재하는 맛입니다.",
+								title,
+								JOptionPane.PLAIN_MESSAGE
+								);
+						return;
+					}
+				}
+			}
+		}
+		
 
 		try {
 			p = JOptionPane.showInputDialog(
@@ -133,19 +153,39 @@ public class Business {
 
 		if (input.equals("컵케익")) {
 			cupcake.add(new Dessert("컵케익", flavour, price, stock));
-			JOptionPane.showMessageDialog(null, "컵케익에 "+flavour+"맛이 "+stock+"개 추가되었습니다.");
+			JOptionPane.showMessageDialog(
+					null, 
+					"컵케익에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
 		}
 		else if (input.equals("쿠키")) {
 			cookie.add(new Dessert("쿠키", flavour, price, stock));
-			JOptionPane.showMessageDialog(null, "쿠키에 "+flavour+"맛이 "+stock+"개 추가되었습니다.");
+			JOptionPane.showMessageDialog(
+					null, 
+					"쿠키에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
 		}
 		else if (input.equals("타르트")) {
 			tart.add(new Dessert("타르트", flavour, price, stock));
-			JOptionPane.showMessageDialog(null, "타르트에 "+flavour+"맛이 "+stock+"개 추가되었습니다.");
+			JOptionPane.showMessageDialog(
+					null, 
+					"타르트에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
 		}
 		else if (input.equals("마카롱")) {
 			macaron.add(new Dessert("마카롱", flavour, price, stock));
-			JOptionPane.showMessageDialog(null, "마카롱에 "+flavour+"맛이 "+stock+"개 추가되었습니다.");
+			JOptionPane.showMessageDialog(
+					null, 
+					"마카롱에 "+flavour+"맛이 "+stock+"개 추가되었습니다.",
+					title,
+					JOptionPane.PLAIN_MESSAGE
+					);
 		}
 	}
 
