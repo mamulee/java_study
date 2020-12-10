@@ -13,16 +13,19 @@ public class Business {
 	ArrayList<Dessert> macaron = new ArrayList<Dessert>();
 	List<ArrayList<Dessert>> dessert = (Arrays.asList(cupcake, cookie, tart, macaron));
 
-//		public void test() {
-//			System.out.println(dessert.get(0).get(0).type);
-//		}
-	
+	//		public void test() {
+	//			System.out.println(dessert.get(0).get(0).type);
+	//		}
+
 	void start() {
 		boolean flag = true;
 		while(flag) {
 			switch(display()) {
-			case 4:
+			case 5:
 				input();
+				break;
+			case 4:
+				modify();
 				break;
 			case 3:
 				check();
@@ -46,7 +49,7 @@ public class Business {
 	}
 
 	int display() {
-		String[] menu = {"종료", "정산", "판매", "조회", "입력"};
+		String[] menu = {"종료", "정산", "판매", "조회", "수정", "입력"};
 		int choice = JOptionPane.showOptionDialog(
 				null, 
 				"메뉴를 선택하세요: ", 
@@ -83,7 +86,7 @@ public class Business {
 				JOptionPane.PLAIN_MESSAGE
 				);
 		if (flavour == null) return;
-		
+
 		try {
 			p = JOptionPane.showInputDialog(
 					null,
@@ -117,7 +120,7 @@ public class Business {
 			else {
 				stock = Integer.parseInt(s);
 			}
-			
+
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(
 					null, 
@@ -147,121 +150,158 @@ public class Business {
 	}
 
 	void modify() {
-		
-		String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
-		int choice = JOptionPane.showOptionDialog(
-				null, 
-				"수정할 디저트 종류를 선택하세요: ", 
-				title, 
-				JOptionPane.DEFAULT_OPTION, 
-				JOptionPane.PLAIN_MESSAGE, 
-				null, 
-				menu,
-				menu[0]
-				);
-		switch(choice) {
-		case 4:
-			choice = 0;
-			break;
-		case 3:
-			choice = 1;
-			break;
-		case 2:
-			choice = 2;
-			break;
-		case 1:
-			choice = 3;
-			break;
-		case 0:
-			return;
-		}
-		
-		int no=1, num2;
-		String num1;
-		String msg = "========"+dessert.get(choice).get(0).type+"========\n"
-				+ "번호\t\t맛\t\t가격\t\t개수\n";
-		Iterator<Dessert> itr = dessert.get(choice).iterator();
-		while(itr.hasNext()) {
-			Dessert d = itr.next();
-			msg += no +"\t"+ d.toString()+"\n";
-			no++;
-		}
-		
 		try {
-			num1 = JOptionPane.showInputDialog(
-					null,
-					"수정할 항목의 번호를 입력하세요: ",
-					title,
-					JOptionPane.PLAIN_MESSAGE
+			String[] menu = {"돌아가기", "마카롱", "타르트", "쿠키", "컵케익"};
+			int choice = JOptionPane.showOptionDialog(
+					null, 
+					"수정할 디저트 종류를 선택하세요: ", 
+					title, 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.PLAIN_MESSAGE, 
+					null, 
+					menu,
+					menu[0]
 					);
-			if (num1 == null) return;
-			else {
-				num2 = Integer.parseInt(num1);
+			switch(choice) {
+			case 4:
+				choice = 0;
+				break;
+			case 3:
+				choice = 1;
+				break;
+			case 2:
+				choice = 2;
+				break;
+			case 1:
+				choice = 3;
+				break;
+			case 0:
+				return;
 			}
 
-		} catch (NumberFormatException e) {
+			int no=1, num2;
+			String num1;
+			String msg = "========"+dessert.get(choice).get(0).type+"========\n"
+					+ "번호\t\t맛\t\t가격\t\t개수\n";
+			Iterator<Dessert> itr = dessert.get(choice).iterator();
+			while(itr.hasNext()) {
+				Dessert d = itr.next();
+				msg += no +"\t"+ d.toString()+"\n";
+				no++;
+			}
+
+			try {
+				num1 = JOptionPane.showInputDialog(
+						null,
+						msg + "수정할 항목의 번호를 입력하세요: ",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				if (num1 == null) return;
+				else {
+					num2 = Integer.parseInt(num1);
+				}
+
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(
+						null, 
+						"숫자만 입력할 수 있습니다.",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				return;
+			}
+
+			String selected = "========"+dessert.get(choice).get(0).type+"========\n"
+					+ "맛\t\t가격\t\t개수\n"
+					+ dessert.get(choice).get(num2-1).flavour +"\t"
+					+ dessert.get(choice).get(num2-1).price + "\t"
+					+ dessert.get(choice).get(num2-1).stock+"\n";
+
+			String[] option = {"돌아가기", "개수", "가격", "맛"};
+			int c = JOptionPane.showOptionDialog(
+					null, 
+					selected + "수정할 항목을 선택하세요: ", 
+					title, 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.PLAIN_MESSAGE, 
+					null, 
+					option,
+					option[0]
+					);
+
+			switch(c) {
+			case 3:
+				String f = JOptionPane.showInputDialog(
+						null, 
+						selected + "새로운 맛을 입력하세요: ",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				if (f == null) return;
+				dessert.get(choice).get(num2-1).flavour = f;
+				JOptionPane.showMessageDialog(
+						null, 
+						"맛이 "+f+"(으)로 수정되었습니다.",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				break;
+			case 2:
+				int price;
+				String p = JOptionPane.showInputDialog(
+						null, 
+						selected + "새로운 가격을 입력하세요: ",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				if (p == null) return;
+				else {
+					price = Integer.parseInt(p);
+				}
+				dessert.get(choice).get(num2-1).price = price;
+				JOptionPane.showMessageDialog(
+						null, 
+						"가격이 "+price+"(으)로 수정되었습니다.",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				break;
+			case 1:
+				int stock;
+				String s = JOptionPane.showInputDialog(
+						null, 
+						selected + "새로운 개수를 입력하세요: ",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				if (s == null) return;
+				else {
+					stock = Integer.parseInt(s);
+				}
+				dessert.get(choice).get(num2-1).price = stock;
+				JOptionPane.showMessageDialog(
+						null, 
+						"개수가 "+stock+"(으)로 수정되었습니다.",
+						title,
+						JOptionPane.PLAIN_MESSAGE
+						);
+				break;
+			case 0:
+				return;
+			}
+		} catch (IndexOutOfBoundsException e) {
 			JOptionPane.showMessageDialog(
 					null, 
-					"숫자만 입력할 수 있습니다.",
+					"수정할 항목이 없습니다.",
 					title,
 					JOptionPane.PLAIN_MESSAGE
 					);
 			return;
 		}
-		
-		
-		String[] option = {"돌아가기", "개수", "가격", "맛"};
-		int c = JOptionPane.showOptionDialog(
-				null, 
-				msg + "수정할 항목을 선택하세요: ", 
-				title, 
-				JOptionPane.DEFAULT_OPTION, 
-				JOptionPane.PLAIN_MESSAGE, 
-				null, 
-				option,
-				option[0]
-				);
-		
-		switch(c) {
-		case 3:
-			String f = JOptionPane.showInputDialog(
-					null, 
-					msg + "수정할 맛을 입력하세요: ",
-					title,
-					JOptionPane.PLAIN_MESSAGE
-					);
-			for (int i=0; i<dessert.get(choice).size(); i++) {
-				if(f.equals(dessert.get(choice).get(i).flavour)) {
-					String newf = JOptionPane.showInputDialog(
-							null, 
-							"맛을 새로 입력하세요: ",
-							title,
-							JOptionPane.PLAIN_MESSAGE
-							);
-					
-					dessert.get(choice).get(i).flavour = newf;
-				}
-				else {
-					JOptionPane.showMessageDialog(
-							null, 
-							"잘못 입력하셨습니다.",
-							title,
-							JOptionPane.PLAIN_MESSAGE
-							);
-				}
-			}
-			break;
-		case 2:
-			break;
-		case 1:
-			break;
-		case 0:
-			return;
-		}
-		
-		
+
 	} //end modify
-	
+
 	void check() {
 		String[] menu = {"컵케익", "쿠키", "타르트", "마카롱"};
 		String input = (String) JOptionPane.showInputDialog(
@@ -276,7 +316,7 @@ public class Business {
 
 				);
 		if (input == null) return;
-		
+
 		if(input.equals("컵케익")) {
 			String msg = "====컵케익====\n"
 					+ "맛\t가격\t개수\n";
@@ -322,7 +362,7 @@ public class Business {
 					JOptionPane.PLAIN_MESSAGE
 					);
 		}
-		else if(input.equals("쿠키")) {
+		else if(input.equals("마카롱")) {
 			String msg = "====마카롱====\n"
 					+ "맛\t가격\t개수\n";
 			Iterator<Dessert> itr = macaron.iterator();
@@ -389,7 +429,7 @@ public class Business {
 					flavour,
 					flavour[0]
 					);
-			
+
 			try {
 				n = JOptionPane.showInputDialog(
 						null,
@@ -410,9 +450,9 @@ public class Business {
 						);
 				return;
 			}
-			
-			
-			
+
+
+
 			if(num > dessert.get(choice).get(c).stock) {
 				JOptionPane.showMessageDialog(
 						null, 
@@ -443,7 +483,7 @@ public class Business {
 		}
 
 	} // end sell()
-	
+
 	void invoice() {
 		int totalRevenue = 0;
 		String msg = "============총 수입============\n"
@@ -453,7 +493,7 @@ public class Business {
 				dessert.get(i).get(j).calc();
 				totalRevenue += dessert.get(i).get(j).revenue;
 			}
-			
+
 			Iterator<Dessert> itr = dessert.get(i).iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
@@ -469,7 +509,7 @@ public class Business {
 				JOptionPane.PLAIN_MESSAGE
 				);
 
-		
+
 	} // end invoice()
-	
+
 }
