@@ -1,8 +1,0 @@
-
-public class Dessert {
-	String flavour; // 맛
-	int price; // 가격
-	int stock; // 수량
-	int sold; // 판매량
-	int sale; // 매출
-}
