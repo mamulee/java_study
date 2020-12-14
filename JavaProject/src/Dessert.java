@@ -20,6 +20,6 @@ public class Dessert {
 	
 	@Override
 	public String toString() {
-		return this.flavour+"\t"+this.price+"\t"+this.stock;
+		return this.flavour+"                "+this.price+"            "+this.stock;
 	}
 }

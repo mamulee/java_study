@@ -5,13 +5,8 @@ public class View {
 
 		Business b = new Business();
 		
-//		b.input();
-//		b.check();
-//	
-//		b.start();
-//		b.sell();
-		
 		b.start();
+		
 	}
 
 }

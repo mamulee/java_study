@@ -47,13 +47,27 @@ public class Business {
 				invoice();
 				break;
 			case 0:
-				flag = false;
-				JOptionPane.showMessageDialog(
+				MyLabel label1 = new MyLabel("프로그램을 종료하시겠습니까?");
+				int c = JOptionPane.showOptionDialog(
+						null, 
+						label1, 
+						title, 
+						JOptionPane.YES_OPTION, 
+						JOptionPane.PLAIN_MESSAGE, 
 						null,
-						panel,
-						title,
-						JOptionPane.PLAIN_MESSAGE
+						null,
+						null
 						);
+				if (c == 1) break;
+				else if (c==0) {
+					flag = false;
+					JOptionPane.showMessageDialog(
+							null,
+							panel,
+							title,
+							JOptionPane.PLAIN_MESSAGE
+							);
+				}
 			}
 		}
 	}
@@ -245,12 +259,12 @@ public class Business {
 
 			int no=1, num2;
 			String num1;
-			String msg = "========"+dessert.get(choice).get(0).type+"========\n"
-					+ "번호\t\t맛\t\t가격\t\t개수\n";
+			String msg = "================"+dessert.get(choice).get(0).type+"================\n"
+					+ "번호                 맛                 가격               개수\n";
 			Iterator<Dessert> itr = dessert.get(choice).iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
-				msg += no +"\t"+ d.toString()+"\n";
+				msg += no +"                  "+ d.toString()+"\n";
 				no++;
 			}
 			
@@ -277,10 +291,10 @@ public class Business {
 			}
 
 			String selected = "========"+dessert.get(choice).get(0).type+"========\n"
-					+ "맛\t\t가격\t\t개수\n"
-					+ dessert.get(choice).get(num2-1).flavour +"\t"
-					+ dessert.get(choice).get(num2-1).price + "\t"
-					+ dessert.get(choice).get(num2-1).stock+"\n";
+					+ "맛                  가격                개수\n"
+					+ dessert.get(choice).get(num2-1).flavour +"                "
+					+ dessert.get(choice).get(num2-1).price + "              "
+					+ dessert.get(choice).get(num2-1).stock+"     \n";
 
 			String[] option = {"돌아가기", "개수", "가격", "맛"};
 			int c = JOptionPane.showOptionDialog(
@@ -303,14 +317,33 @@ public class Business {
 						JOptionPane.PLAIN_MESSAGE
 						);
 				if (f == null) return;
-				dessert.get(choice).get(num2-1).flavour = f;
-				MyLabel label3 = new MyLabel("맛이 "+f+"(으)로 수정되었습니다.");
-				JOptionPane.showMessageDialog(
-						null, 
-						label3,
-						title,
-						JOptionPane.PLAIN_MESSAGE
-						);
+				
+				int check = 0;
+				for(int i=0; i<dessert.get(choice).size(); i++) {
+					if (f.equals(dessert.get(choice).get(i).flavour)) {
+						MyLabel label7 = new MyLabel("이미 존재하는 맛입니다.");
+						JOptionPane.showMessageDialog(
+								null, 
+								label7,
+								title,
+								JOptionPane.PLAIN_MESSAGE
+								);
+						check = 1;
+					}
+					else {
+						break;
+					}
+				}
+				if (check == 0) {
+					dessert.get(choice).get(num2-1).flavour = f;
+					MyLabel label3 = new MyLabel("맛이 "+f+"(으)로 수정되었습니다.");
+					JOptionPane.showMessageDialog(
+							null, 
+							label3,
+							title,
+							JOptionPane.PLAIN_MESSAGE
+							);
+				}
 				break;
 			case 2:
 				int price;
@@ -345,7 +378,7 @@ public class Business {
 				else {
 					stock = Integer.parseInt(s);
 				}
-				dessert.get(choice).get(num2-1).price = stock;
+				dessert.get(choice).get(num2-1).stock = stock;
 				MyLabel label5 = new MyLabel("개수가 "+stock+"(으)로 수정되었습니다.");
 				JOptionPane.showMessageDialog(
 						null, 
@@ -387,8 +420,8 @@ public class Business {
 		if (input == null) return;
 
 		if(input.equals("컵케익")) {
-			String msg = "====컵케익====\n"
-					+ "맛\t가격\t개수\n";
+			String msg = "========컵케익========\n"
+					+ "맛                  가격                개수\n";
 			Iterator<Dessert> itr = cupcake.iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
@@ -402,8 +435,8 @@ public class Business {
 					);
 		}
 		else if(input.equals("쿠키")) {
-			String msg = "====쿠 키====\n"
-					+ "맛\t가격\t개수\n";
+			String msg = "========쿠  키========\n"
+					+ "맛                  가격                개수\n";
 			Iterator<Dessert> itr = cookie.iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
@@ -417,8 +450,8 @@ public class Business {
 					);
 		}
 		else if(input.equals("타르트")) {
-			String msg = "====타르트====\n"
-					+ "맛\t가격\t개수\n";
+			String msg = "========타르트========\n"
+					+ "맛                  가격                개수\n";
 			Iterator<Dessert> itr = tart.iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
@@ -432,8 +465,8 @@ public class Business {
 					);
 		}
 		else if(input.equals("마카롱")) {
-			String msg = "====마카롱====\n"
-					+ "맛\t가격\t개수\n";
+			String msg = "========마카롱========\n"
+					+ "맛                  가격                개수\n";
 			Iterator<Dessert> itr = macaron.iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
@@ -564,7 +597,7 @@ public class Business {
 	void invoice() {
 		int totalRevenue = 0;
 		String msg = "============총 수입============\n"
-				+"디저트종류\t맛\t판매량\t수입\n";
+				+"디저트종류          맛             판매량          수입\n";
 		for(int i=0; i<dessert.size(); i++) {
 			for(int j=0; j<dessert.get(i).size(); j++) {
 				dessert.get(i).get(j).calc();
@@ -574,11 +607,11 @@ public class Business {
 			Iterator<Dessert> itr = dessert.get(i).iterator();
 			while(itr.hasNext()) {
 				Dessert d = itr.next();
-				msg += d.type+"\t"+d.flavour+"\t"+d.sales+"\t"+d.revenue+"\n";
+				msg += d.type+"               "+d.flavour+"            "+d.sales+"              "+d.revenue+"\n";
 			}
 		}
-		msg += "-------------------------------\n"
-				+"                               총 수입: "+totalRevenue;
+		msg += "----------------------------------\n"
+				+"                                              총 수입: "+totalRevenue;
 		JOptionPane.showMessageDialog(
 				null, 
 				msg,
