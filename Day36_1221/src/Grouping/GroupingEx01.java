@@ -18,6 +18,8 @@ public class GroupingEx01 {
 				new Student("박수미", 6, Student.Sex.FEMALE,Student.City.Seoul),
 				new Student("박수호", 6, Student.Sex.MALE,Student.City.Seoul)
 				);
+
+		/*
 		Stream<Student> totalStream = totalList.stream();
 
 		//Student객체가 입력되어서 Student.City가 리턴됨 Function<T,K>
@@ -41,6 +43,11 @@ public class GroupingEx01 {
 
 		//Stream의 collect()메소드로 Student를  Student.City별로 그룹핑해서 Map을 얻는다.
 		Map<Student.City, List<String>> mapByCity = totalStream.collect(collector3);
+		 */
+
+		Map<Student.City, List<String>> mapByCity = totalList.stream()
+				.collect(Collectors.groupingBy(Student :: getCity, 
+						Collectors.mapping(Student :: getName, Collectors.toList())));
 
 
 		System.out.println("서울에 사는 사람 이름 : " + mapByCity.get(Student.City.Seoul));
