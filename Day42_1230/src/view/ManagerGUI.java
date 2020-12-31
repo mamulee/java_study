@@ -7,6 +7,7 @@ import java.awt.List;
 
 import Manager.MemberDAO;
 import Manager.MemberDTO;
+import Manager.RecordNotFoundException;
 
 public class ManagerGUI {
 	// 화면에 관련된 컴포넌트들을 전역 변수로 선언
@@ -61,6 +62,7 @@ public class ManagerGUI {
 
 		// list 아이템 클릭하면 회원정보 입력 필드값 채우기
 		list.addItemListener(new ItemListener() {
+			@Override
 			public void itemStateChanged(ItemEvent e) {
 				String str = list.getSelectedItem();
 				StringTokenizer st = new StringTokenizer(str);
@@ -79,8 +81,7 @@ public class ManagerGUI {
 			}
 		});
 
-
-	}
+	} // 생성자
 
 	public void launchFrame() {
 		panel[1].setLayout(new GridLayout(2,1));
@@ -149,7 +150,118 @@ public class ManagerGUI {
 		frame.setVisible(true);
 
 		displayAll();
+
+		// 회원 정보 저장 버튼
+		btnSave.addActionListener (new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = tfName.getText();
+				String age = tfAge.getText();
+				String weight = tfWeight.getText();
+				String height = tfHeight.getText();
+				String sex = "여";
+				if(chMale.getState()){
+					sex = "남";
+				}
+
+				MemberDAO dao = new MemberDAO();
+				int n = dao.insert(name,age,height,weight,sex);
+				lblStatus.setText(n + "개의 레코드가 저장되었습니다.");
+				displayAll();
+			}
+		});
+
+		// 회원 정보 삭제 버튼
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = tfName.getText();
+				MemberDAO dao = new MemberDAO ();
+				int n = dao.delete(name);
+				lblStatus.setText(n + "개의 레코드가 삭제되었습니다.");
+
+				displayAll();
+			}
+		});
+
+		// 회원 정보 수정 버튼
+		btnUpdate.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String name = tfName.getText();
+				String age = tfAge.getText();
+				String weight = tfWeight.getText();
+				String height = tfHeight.getText();
+				String sex = "남";
+				if(chFemale.getState()){
+					sex = "여";
+				}
+				MemberDAO dao = new MemberDAO();
+				int n = dao.update(name,age,height,weight,sex);
+				lblStatus.setText(n + "개의 레코드가 수정되었습니다.");
+
+				displayAll();
+			}
+		});
+
+		// 회원 정보 검색 버튼
+		btnSearch.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = tfName.getText();
+
+				MemberDAO dao = new MemberDAO();
+				MemberDTO dto = null;
+				try {
+					dto = dao.search(name);
+				} catch (RecordNotFoundException e1) {
+					// lblStatus.setText(e1.getMessage()); 도 가능
+					final Dialog dialog = new Dialog(frame, "경고");
+					dialog.setLayout(new FlowLayout());
+					dialog.setSize(250, 80);
+					dialog.setTitle(e1.getMessage());
+					Button btnOk = new Button("확 인");
+					btnOk.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							dialog.dispose();
+						}
+					});
+
+					dialog.add(btnOk);
+					dialog.setLocation(frame.getLocation().x + frame.getSize().width/2 - dialog.getSize().width/2,
+							frame.getLocation().y + frame.getSize().height/2 - dialog.getSize().height/2);
+					dialog.setVisible(true);
+					lblStatus.setText("");
+					return;
+
+				}
+				// dto 안에 검색한 데이터베이스에서 가져온 값들이 있다.
+				tfName.setText(dto.getName());
+				// tfAge.setText(""+dto.getAge()); 가 더 간단
+				tfAge.setText(Integer.toString(dto.getAge()));
+				tfHeight.setText(Integer.toString(dto.getHeight()));
+				tfWeight.setText(Integer.toString(dto.getWeight()));
+				String sex = Character.toString(dto.getSex());
+				if(sex.equals("여")){
+					chFemale.setState(true);
+				}else{
+					chMale.setState(true);
+				}
+
+
+
+			}
+
+		});
+
+
 	} // launchFrame()
+
+
+
+
 
 	public void displayAll() {
 		list.removeAll(); // 리스트(awt) 화면 클리어
@@ -162,9 +274,9 @@ public class ManagerGUI {
 			int weight = dto.getWeight();
 			char sex = dto.getSex();
 			list.add(name+"           "+
-             age+"                  "+
-       weight+"             "+
-          height+"                 "+sex);
+					age+"                  "+
+					weight+"             "+
+					height+"                 "+sex);
 		}
 	}
 

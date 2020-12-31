@@ -6,9 +6,9 @@ import java.sql.*;
 public class MemberDAO {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String userid = "mmanager";
-	String passwd = "mmanager";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String userid = "test1";
+	String passwd = "test1";
 
 	public MemberDAO(){
 		try{
@@ -66,11 +66,11 @@ public class MemberDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		int n = 0;
-		
+
 		try{
 			con = DriverManager.getConnection(url, userid, passwd);
 			String sql = "INSERT INTO member(name, age, height, weight, sex)" +
-			      " VALUES(?, ?, ?, ?, ?)";
+					" VALUES(?, ?, ?, ?, ?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setInt(2, Integer.parseInt(age));
@@ -87,16 +87,145 @@ public class MemberDAO {
 				if(con != null) con.close();
 			}catch(Exception e){e.printStackTrace();}
 		}
-
 		return n;
 
-	}
+	} // 저장
 
 	// 회원 정보 삭제
+	public int delete(String name) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int n = 0;
+
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			String sql = "DELETE FROM member WHERE name = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			n = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return n;
+	} // 삭제
 
 	// 회원 정보 수정
+	public int update(String name, String age, String height, String weight, String sex){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int n = 0;
 
+		try{
+			con = DriverManager.getConnection(url, userid, passwd);
+			String sql = "UPDATE member SET age=?, height=?, " +
+			    " weight=?, sex=? WHERE name = ?";
 
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(age));
+			pstmt.setInt(2, Integer.parseInt(height));
+			pstmt.setInt(3, Integer.parseInt(weight));
+			pstmt.setString(4, sex);
+			pstmt.setString(5, name);
+
+			n = pstmt.executeUpdate();
+
+		}catch(Exception e){e.printStackTrace();
+
+		}finally{
+
+			try{
+				if(pstmt != null)pstmt.close();
+				if(con != null)con.close();
+
+			}catch(Exception e){e.printStackTrace();}
+		}
+		return n;
+
+	} // end 회원정보 수정
+
+	// 회원 정보 조회에 사용할 이름 존재 여부 검사
+	public boolean isExist(String name) {
+		boolean result = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			String sql = "SELECT * FROM member WHERE name = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setNString(1,  name);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	// 회원 정보 검색
+	public MemberDTO search(String name) throws RecordNotFoundException {
+		
+		if(!isExist(name)) {
+			throw new RecordNotFoundException("\""+name+"\"(은)는 없습니다.");
+		}
+		
+		MemberDTO dto = new MemberDTO();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			String sql = "SELECT * FROM member WHERE name = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				dto.setName(rs.getString(1));
+				dto.setAge(rs.getInt(2));
+				dto.setWeight(rs.getInt(3));
+				dto.setHeight(rs.getInt(4));
+				dto.setSex(rs.getString(5).charAt(0));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return dto;
+	} // 검색
 
 
 } // MemberDAO class
